@@ -19,6 +19,7 @@ const CompanyListing = () => {
       status: 'active',
       type: 'current',
       visitDate: '2024-08-15',
+      arrivalDate: '2024-08-20',
       package: '25-30 LPA',
       positions: 15,
       location: 'Bangalore, Hyderabad',
@@ -26,7 +27,9 @@ const CompanyListing = () => {
       cgpa: '7.5+',
       rounds: 4,
       applied: 120,
-      description: 'Software Development Engineer roles'
+      description: 'Software Development Engineer roles',
+      glassdoorRating: 4.5,
+      profilesOffered: ['SDE', 'Product Manager', 'Data Scientist']
     },
     {
       id: 2,
@@ -35,6 +38,7 @@ const CompanyListing = () => {
       status: 'upcoming',
       type: 'current',
       visitDate: '2024-08-22',
+      arrivalDate: '2024-08-22',
       package: '22-28 LPA',
       positions: 12,
       location: 'Noida, Pune',
@@ -42,7 +46,9 @@ const CompanyListing = () => {
       cgpa: '8.0+',
       rounds: 3,
       applied: 0,
-      description: 'Full Stack Developer positions'
+      description: 'Full Stack Developer positions',
+      glassdoorRating: 4.2,
+      profilesOffered: ['SDE', 'Intern']
     },
     {
       id: 3,
@@ -51,6 +57,7 @@ const CompanyListing = () => {
       status: 'completed',
       type: 'current',
       visitDate: '2024-07-30',
+      arrivalDate: '2024-08-2',
       package: '20-25 LPA',
       positions: 20,
       location: 'Chennai, Bangalore',
@@ -58,7 +65,9 @@ const CompanyListing = () => {
       cgpa: '7.0+',
       rounds: 4,
       applied: 180,
-      description: 'SDE-1 and Support Engineer roles'
+      description: 'SDE-1 and Support Engineer roles',
+      glassdoorRating: 4.0,
+      profilesOffered: ['SDE', 'Support Engineer']
     },
     {
       id: 4,
@@ -67,6 +76,7 @@ const CompanyListing = () => {
       status: 'pipeline',
       type: 'upcoming',
       visitDate: '2024-09-10',
+      arrivalDate: '2024-09-21',
       package: '12-18 LPA',
       positions: 50,
       location: 'Multiple Locations',
@@ -74,7 +84,9 @@ const CompanyListing = () => {
       cgpa: '6.5+',
       rounds: 3,
       applied: 0,
-      description: 'Systems Engineer and Specialist Programmer'
+      description: 'Systems Engineer and Specialist Programmer',
+      glassdoorRating: 3.8,
+      profilesOffered: ['Systems Engineer', 'Specialist Programmer']
     }
   ]);
 
@@ -275,9 +287,12 @@ const CompanyListing = () => {
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Visit Date</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profiles</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Glassdoor Rating</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Scheduled Visit</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actual Arrival</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Package</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Positions</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No. of Vacancies</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applied</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
@@ -300,9 +315,38 @@ const CompanyListing = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <div className="flex flex-wrap gap-1">
+                        {company.profilesOffered?.map((profile, index) => (
+                          <span key={index} className="inline-flex px-2 py-1 text-xs font-medium bg-blue-50 text-blue-700 rounded-full">
+                            {profile}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center gap-1">
+                        <span className={`text-sm font-medium ${
+                          company.glassdoorRating >= 4 ? 'text-green-600' : 
+                          company.glassdoorRating >= 3 ? 'text-yellow-600' : 
+                          'text-red-600'
+                        }`}>
+                          {company.glassdoorRating}
+                        </span>
+                        <svg className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       <div className="flex items-center gap-1">
                         <Calendar size={16} className="text-gray-400" />
                         {new Date(company.visitDate).toLocaleDateString()}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <div className="flex items-center gap-1">
+                        <Calendar size={16} className="text-gray-400" />
+                        {company.arrivalDate ? new Date(company.arrivalDate).toLocaleDateString() : '-'}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -460,6 +504,32 @@ const CompanyListing = () => {
                     <option value="active">Active</option>
                     <option value="pipeline">Pipeline</option>
                   </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Glassdoor Rating</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="5"
+                    step="0.1"
+                    value={newCompany.glassdoorRating}
+                    onChange={(e) => setNewCompany({...newCompany, glassdoorRating: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="e.g., 4.5"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Profiles Offered</label>
+                  <input
+                    type="text"
+                    value={newCompany.profilesOffered}
+                    onChange={(e) => setNewCompany({...newCompany, profilesOffered: e.target.value.split(',')})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="e.g., SDE, Data Scientist, Product Manager"
+                  />
+                  <p className="mt-1 text-xs text-gray-500">Separate multiple profiles with commas</p>
                 </div>
 
                 <div className="md:col-span-2">

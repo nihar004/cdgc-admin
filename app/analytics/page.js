@@ -48,8 +48,6 @@ const AnalyticsDashboard = () => {
     { department: 'CSE', total: 120, placed: 98, rate: 81.7, avgPackage: 8.2 },
     { department: 'ECE', total: 100, placed: 75, rate: 75.0, avgPackage: 6.8 },
     { department: 'ME', total: 80, placed: 55, rate: 68.8, avgPackage: 5.9 },
-    { department: 'EE', total: 70, placed: 48, rate: 68.6, avgPackage: 6.1 },
-    { department: 'CE', total: 80, placed: 44, rate: 55.0, avgPackage: 5.5 }
   ];
 
   // Package distribution
@@ -141,7 +139,6 @@ const AnalyticsDashboard = () => {
                 <option value="cse">Computer Science</option>
                 <option value="ece">Electronics</option>
                 <option value="me">Mechanical</option>
-                <option value="ee">Electrical</option>
               </select>
             </div>
             <div className="sm:w-48">
@@ -282,7 +279,7 @@ const AnalyticsDashboard = () => {
           {/* Package Distribution */}
           <div className="bg-white rounded-lg shadow-sm p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Package Distribution</h3>
-            <ResponsiveContainer width="100%" height={200}>
+            <ResponsiveContainer width="85%" height={250}>
               <PieChart>
                 <Pie
                   data={packageData}
@@ -300,30 +297,6 @@ const AnalyticsDashboard = () => {
                 <Tooltip />
               </PieChart>
             </ResponsiveContainer>
-          </div>
-
-          {/* Elimination Funnel */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Selection Funnel</h3>
-            <div className="space-y-3">
-              {eliminationData.map((stage, index) => {
-                const percentage = ((stage.students / eliminationData[0].students) * 100).toFixed(1);
-                return (
-                  <div key={stage.round} className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">{stage.round}</span>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-24 bg-gray-200 rounded-full h-2">
-                        <div 
-                          className="bg-blue-600 h-2 rounded-full" 
-                          style={{ width: `${percentage}%` }}
-                        ></div>
-                      </div>
-                      <span className="text-sm font-medium text-gray-900 w-12 text-right">{stage.students}</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
           </div>
         </div>
 
@@ -378,37 +351,6 @@ const AnalyticsDashboard = () => {
                 ))}
               </tbody>
             </table>
-          </div>
-        </div>
-
-        {/* Summary Insights */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Key Insights</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <h4 className="font-medium text-green-800 mb-2">Positive Trends</h4>
-              <ul className="text-sm text-green-700 space-y-1">
-                <li>• CSE department leading with 81.7% placement rate</li>
-                <li>• Average package increased by 12% from last year</li>
-                <li>• 85% students placed in first 4 months</li>
-              </ul>
-            </div>
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-              <h4 className="font-medium text-yellow-800 mb-2">Areas for Improvement</h4>
-              <ul className="text-sm text-yellow-700 space-y-1">
-                <li>• CE department needs focused support (55% rate)</li>
-                <li>• 20% gap between expected vs actual companies</li>
-                <li>• Need more product-based company visits</li>
-              </ul>
-            </div>
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h4 className="font-medium text-blue-800 mb-2">Recommendations</h4>
-              <ul className="text-sm text-blue-700 space-y-1">
-                <li>• Focus on skill development for low-performing depts</li>
-                <li>• Strengthen industry partnerships</li>
-                <li>• Conduct more mock interviews and training</li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
