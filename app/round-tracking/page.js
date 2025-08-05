@@ -18,13 +18,13 @@ const RoundTrackingPage = () => {
       totalRounds: 4,
       status: 'ongoing',
       rounds: [
-        { round: 1, name: 'Online Assessment', applied: 150, qualified: 80, eliminated: 70, eliminationRate: 46.7 },
-        { round: 2, name: 'Technical Interview', applied: 80, qualified: 45, eliminated: 35, eliminationRate: 43.8 },
-        { round: 3, name: 'HR Interview', applied: 45, qualified: 25, eliminated: 20, eliminationRate: 44.4 },
-        { round: 4, name: 'Final Selection', applied: 25, qualified: 20, eliminated: 5, eliminationRate: 20.0 }
+        { round: 1, name: 'Online Assessment', applied: 150, appearedForAssessment: 150, qualified: 80 },
+        { round: 2, name: 'Technical Interview', applied: 80, appearedForAssessment: 75, qualified: 45},
+        { round: 3, name: 'HR Interview', applied: 45, appearedForAssessment: 45, qualified: 25},
+        { round: 4, name: 'Final Selection', applied: 25, appearedForAssessment: 24, qualified: 20}
       ]
     },
-    {
+    { 
       id: 2,
       name: 'Infosys',
       totalApplied: 120,
@@ -32,9 +32,9 @@ const RoundTrackingPage = () => {
       totalRounds: 3,
       status: 'ongoing',
       rounds: [
-        { round: 1, name: 'Aptitude Test', applied: 120, qualified: 65, eliminated: 55, eliminationRate: 45.8 },
-        { round: 2, name: 'Technical Round', applied: 65, qualified: 35, eliminated: 30, eliminationRate: 46.2 },
-        { round: 3, name: 'HR Round', applied: 35, qualified: 0, eliminated: 0, eliminationRate: 0 }
+        { round: 1, name: 'Aptitude Test', applied: 120, appearedForAssessment: 110, qualified: 65},
+        { round: 2, name: 'Technical Round', applied: 65, appearedForAssessment: 60, qualified: 35},
+        { round: 3, name: 'HR Round', applied: 35, appearedForAssessment: 35, qualified: 0}
       ]
     },
     {
@@ -45,10 +45,10 @@ const RoundTrackingPage = () => {
       totalRounds: 4,
       status: 'completed',
       rounds: [
-        { round: 1, name: 'Online Test', applied: 90, qualified: 50, eliminated: 40, eliminationRate: 44.4 },
-        { round: 2, name: 'Group Discussion', applied: 50, qualified: 30, eliminated: 20, eliminationRate: 40.0 },
-        { round: 3, name: 'Technical Interview', applied: 30, qualified: 18, eliminated: 12, eliminationRate: 40.0 },
-        { round: 4, name: 'Final Interview', applied: 18, qualified: 15, eliminated: 3, eliminationRate: 16.7 }
+        { round: 1, name: 'Online Test', applied: 90, appearedForAssessment: 90, qualified: 50},
+        { round: 2, name: 'Group Discussion', applied: 50, appearedForAssessment: 50, qualified: 30},
+        { round: 3, name: 'Technical Interview', applied: 30, appearedForAssessment: 30, qualified: 18},
+        { round: 4, name: 'Final Interview', applied: 18, appearedForAssessment: 18, qualified: 15}
       ]
     }
   ];
@@ -162,17 +162,6 @@ const RoundTrackingPage = () => {
           <div className="bg-white rounded-lg shadow-sm p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <TrendingDown className="h-8 w-8 text-red-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Eliminated</p>
-                <p className="text-2xl font-bold text-gray-900">240</p>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
                 <Calendar className="h-8 w-8 text-purple-600" />
               </div>
               <div className="ml-4">
@@ -219,19 +208,13 @@ const RoundTrackingPage = () => {
                         Round
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Applied
+                        Applied for Assessment
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Actually Appeared
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Qualified
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Eliminated
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Elimination Rate
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Progress
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Actions
@@ -258,30 +241,11 @@ const RoundTrackingPage = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                           {round.applied}
                         </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          {round.appearedForAssessment}
+                        </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-medium">
                           {round.qualified}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-red-600 font-medium">
-                          {round.eliminated}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
-                            round.eliminationRate > 40 ? 'bg-red-100 text-red-800' :
-                            round.eliminationRate > 25 ? 'bg-yellow-100 text-yellow-800' :
-                            'bg-green-100 text-green-800'
-                          }`}>
-                            {round.eliminationRate}%
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div 
-                              className={`h-2 rounded-full ${
-                                round.round <= company.currentRound ? 'bg-blue-600' : 'bg-gray-300'
-                              }`}
-                              style={{ width: round.round <= company.currentRound ? '100%' : '0%' }}
-                            ></div>
-                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <button className="text-blue-600 hover:text-blue-900 inline-flex items-center">
@@ -306,12 +270,6 @@ const RoundTrackingPage = () => {
                     <span className="text-gray-600">Currently Qualified:</span>
                     <span className="ml-2 font-medium text-green-600">
                       {company.rounds[company.currentRound - 1]?.qualified || 0}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">Total Eliminated:</span>
-                    <span className="ml-2 font-medium text-red-600">
-                      {company.rounds.reduce((sum, round) => sum + round.eliminated, 0)}
                     </span>
                   </div>
                   <div>

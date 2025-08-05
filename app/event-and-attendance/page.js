@@ -147,7 +147,7 @@ const EventAttendancePage = () => {
           <div className="flex justify-between items-center py-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Event & Attendance Management</h1>
-              <p className="mt-2 text-gray-600">Track attendance for company rounds and CDGC events</p>
+              <p className="mt-2 text-gray-600">Track attendance for company rounds and CDGC events (QR Code Based)</p>
             </div>
             <div className="flex space-x-3">
               <button className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
