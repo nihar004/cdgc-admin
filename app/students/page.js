@@ -7,23 +7,16 @@ import {
   UserX,
   Clock,
   Search,
-  Filter,
   Download,
   Plus,
   Eye,
   Edit,
-  Trash2,
-  FileText,
   Award,
-  Building2,
-  Calendar,
-  ChevronDown,
   ArrowUpDown,
   MoreHorizontal,
   CheckCircle,
   XCircle,
   AlertCircle,
-  Settings
 } from 'lucide-react';
 
 export default function StudentManagement() {
@@ -35,8 +28,15 @@ export default function StudentManagement() {
   const [sortOrder, setSortOrder] = useState('asc');
   const [selectedStudents, setSelectedStudents] = useState([]);
   const [showFilters, setShowFilters] = useState(false);
+  const [selectedYear, setSelectedYear] = useState('2024-25');
 
-  // Sample student data with detailed placement information
+  const academicYears = [
+    '2024-25',
+    '2023-24', 
+    '2022-23',
+    '2021-22'
+  ];
+
   const students = [
     {
       id: 1,
@@ -56,9 +56,7 @@ export default function StudentManagement() {
       rounds: ['Aptitude', 'Technical', 'HR'],
       currentRound: 'Completed',
       skills: ['Java', 'Spring Boot', 'MySQL'],
-      projects: 3,
       internships: 2,
-      certifications: 5,
       eligibilityStatus: 'Eligible',
       backlogs: 0,
       attendancePercentage: 92
@@ -81,9 +79,7 @@ export default function StudentManagement() {
       rounds: ['Aptitude', 'Technical', 'HR'],
       currentRound: 'Technical',
       skills: ['Python', 'Django', 'PostgreSQL'],
-      projects: 4,
       internships: 1,
-      certifications: 7,
       eligibilityStatus: 'Eligible',
       backlogs: 0,
       attendancePercentage: 95
@@ -106,9 +102,7 @@ export default function StudentManagement() {
       rounds: [],
       currentRound: null,
       skills: ['JavaScript', 'React', 'Node.js'],
-      projects: 2,
       internships: 0,
-      certifications: 3,
       eligibilityStatus: 'Eligible',
       backlogs: 1,
       attendancePercentage: 78
@@ -131,9 +125,7 @@ export default function StudentManagement() {
       rounds: ['Aptitude', 'Technical', 'HR'],
       currentRound: 'Completed',
       skills: ['C++', 'Data Structures', 'Algorithms'],
-      projects: 3,
       internships: 2,
-      certifications: 4,
       eligibilityStatus: 'Eligible',
       backlogs: 0,
       attendancePercentage: 88
@@ -156,9 +148,7 @@ export default function StudentManagement() {
       rounds: [],
       currentRound: null,
       skills: ['VLSI', 'Embedded Systems'],
-      projects: 1,
       internships: 0,
-      certifications: 1,
       eligibilityStatus: 'Ineligible - Low CGPA',
       backlogs: 3,
       attendancePercentage: 65
@@ -181,9 +171,7 @@ export default function StudentManagement() {
       rounds: ['Aptitude', 'Technical-1', 'Technical-2', 'Managerial', 'HR'],
       currentRound: 'Completed',
       skills: ['Machine Learning', 'Python', 'TensorFlow'],
-      projects: 6,
       internships: 3,
-      certifications: 12,
       eligibilityStatus: 'Eligible',
       backlogs: 0,
       attendancePercentage: 98,
@@ -194,7 +182,6 @@ export default function StudentManagement() {
     }
   ];
 
-  // College placement rules
   const placementRules = {
     eligibilityCriteria: {
       minimumCGPA: 7.0,
@@ -210,7 +197,6 @@ export default function StudentManagement() {
     }
   };
 
-  // Calculate statistics
   const getStatistics = () => {
     const totalStudents = students.length;
     const placedStudents = students.filter(s => s.status === 'placed' || s.status === 'multiple-offers').length;
@@ -240,26 +226,21 @@ export default function StudentManagement() {
 
   const stats = getStatistics();
 
-  // Filter and sort students
   const getFilteredStudents = () => {
     let filtered = students;
 
-    // Filter by category
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(student => student.status === selectedCategory);
     }
 
-    // Filter by branch
     if (selectedBranch !== 'all') {
       filtered = filtered.filter(student => student.branch === selectedBranch);
     }
 
-    // Filter by batch
     if (selectedBatch !== 'all') {
       filtered = filtered.filter(student => student.batch === selectedBatch);
     }
 
-    // Search filter
     if (searchTerm) {
       filtered = filtered.filter(student => 
         student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -269,7 +250,6 @@ export default function StudentManagement() {
       );
     }
 
-    // Sort students
     filtered.sort((a, b) => {
       let aValue, bValue;
       
@@ -345,7 +325,7 @@ export default function StudentManagement() {
   const checkEligibility = (student) => {
     const { minimumCGPA, maximumBacklogs, minimumAttendance } = placementRules.eligibilityCriteria;
     
-    if (student.cgpa < minimumCGPA) return { eligible: false, reason: 'Low CGPA' };
+    if (student.cgpa < minimumCGPA) return { eligible: false, reason: 'Ineligible' };
     if (student.backlogs > maximumBacklogs) return { eligible: false, reason: 'Too many backlogs' };
     if (student.attendancePercentage < minimumAttendance) return { eligible: false, reason: 'Low attendance' };
     
@@ -362,13 +342,32 @@ export default function StudentManagement() {
         {/* Header */}
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800">Student Management</h1>
-            <p className="text-gray-600 mt-1">Manage and categorize students based on placement status and college rules</p>
+            <div className="flex items-center gap-4">
+              <h1 className="text-3xl font-bold text-gray-800">Student Management</h1>
+              <select
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(e.target.value)}
+                className="px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-700 text-sm font-medium"
+              >
+                {academicYears.map(year => (
+                  <option key={year} value={year}>
+                    Batch {year}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <p className="text-gray-600 mt-1">
+              Manage and categorize students based on placement status and college rules
+            </p>
           </div>
           <div className="flex space-x-3">
             <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center space-x-2">
               <Download className="h-4 w-4" />
               <span>Export Data</span>
+            </button>
+            <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 flex items-center space-x-2">
+              <Plus className="h-4 w-4" />
+              <span>Import Data</span>
             </button>
             <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2">
               <Plus className="h-4 w-4" />
@@ -378,12 +377,23 @@ export default function StudentManagement() {
         </div>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
           <div className="bg-white p-6 rounded-lg shadow-sm border">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Total Students</p>
                 <p className="text-2xl font-bold text-gray-900">{stats.totalStudents}</p>
+              </div>
+              <Users className="h-8 w-8 text-blue-600" />
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow-sm border">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Total Interested</p>
+                <p className="text-sm font-medium text-gray-600">(for Placement)</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.totalStudents-2}</p>
               </div>
               <Users className="h-8 w-8 text-blue-600" />
             </div>
@@ -423,9 +433,11 @@ export default function StudentManagement() {
           <div className="bg-white p-6 rounded-lg shadow-sm border">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Avg Package</p>
+                <p className="text-sm font-medium text-gray-600">Avg CTC</p>
                 <p className="text-xl font-bold text-purple-600">{stats.avgPackage} LPA</p>
                 <p className="text-xs text-gray-500">Highest: {stats.highestPackage} LPA</p>
+                <p className="text-xs text-gray-500">Medium: 12 LPA</p>
+                <p className="text-xs text-gray-500">Lowest: 6 LPA</p>
               </div>
               <Award className="h-8 w-8 text-purple-600" />
             </div>
@@ -609,9 +621,6 @@ export default function StudentManagement() {
                           )}
                           <span className="text-xs">{eligibility.reason}</span>
                         </div>
-                        <div className="text-xs text-gray-500 mt-1">
-                          Projects: {student.projects} | Certs: {student.certifications}
-                        </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div className="flex space-x-2">
@@ -631,33 +640,6 @@ export default function StudentManagement() {
                 })}
               </tbody>
             </table>
-          </div>
-        </div>
-
-        {/* Placement Rules Info */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <div className="flex items-start space-x-3">
-            <Settings className="h-5 w-5 text-blue-600 mt-0.5" />
-            <div>
-              <h3 className="text-sm font-medium text-blue-800">College Placement Rules</h3>
-              <div className="mt-2 text-sm text-blue-700">
-                <p><strong>Eligibility Criteria:</strong></p>
-                <ul className="list-disc list-inside mt-1 space-y-1">
-                  <li>Minimum CGPA: {placementRules.eligibilityCriteria.minimumCGPA}</li>
-                  <li>Maximum Backlogs: {placementRules.eligibilityCriteria.maximumBacklogs}</li>
-                  <li>Minimum Attendance: {placementRules.eligibilityCriteria.minimumAttendance}%</li>
-                </ul>
-                <p className="mt-3"><strong>Package Categories:</strong></p>
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-2 mt-1">
-                  {Object.entries(placementRules.categories).map(([category, rule]) => (
-                    <div key={category} className="text-xs bg-white rounded px-2 py-1">
-                      <div className="font-medium">{category}</div>
-                      <div>{rule.minPackage}+ LPA</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
